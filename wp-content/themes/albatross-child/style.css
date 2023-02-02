@@ -1,0 +1,463 @@
+/*
+Theme Name:   albatross Child
+Theme URI:    http://example.com/albatross-child/
+Description:  albatross Child Theme
+Author:       John Doe
+Author URI:   http://example.com
+Template:     albatross
+Version:      1.0.0
+License:      GNU General Public License v2 or later
+License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
+Text Domain:  albatrosschild
+*/
+/** kovalchuk css */
+body {
+    overflow-x: hidden;
+    
+}
+.site-header .navigation-container > * {
+	margin-left: 0;
+}
+
+.site-header .custom-logo-link {
+	margin: 0 auto;
+}
+
+.site-header .custom-logo-link .custom-logo {
+	width: 240px;
+}
+
+body.page-has-thumbnail .page-header-wrapper.our-story:after {
+	background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 59.2%, rgba(255, 255, 255, 0) 100%);
+}
+
+body.page-has-thumbnail .page-header-wrapper.city-guide:after {
+	background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
+}
+
+body.page-has-thumbnail .page-header-wrapper.city-guide h1.entry-title {
+	font-size: 50px;
+}
+
+body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
+	line-height: 30px;
+}
+
+.site-header .navigation-container {
+	justify-content: flex-start;
+}
+
+.site-header .header-dropdown-toggle:focus, .site-header .header-dropdown-toggle,
+.site-header .header-dropdown-toggle:focus, .site-header .header-dropdown-toggle:hover {
+	background-color: unset;
+}
+
+.site-header .header-dropdown-toggle.toggled-on {
+    background-image: url(images/menu_close1.svg);
+	border: none;
+}
+
+.site-header .site-branding {
+	margin-right: 64px;
+}
+
+.site-header .header-dropdown-toggle:not(.toggled-on) {
+	background-image: url(images/menu_open1.svg);
+}
+
+.site-header .site-header-container {
+	max-width: none;
+}
+
+.site-header .header-dropdown-content-wrapper {
+	align-items: center;
+}
+
+.site-header .header-dropdown .header-dropdown-content {
+	width: 65%;
+	position: fixed;
+}
+
+.main-navigation .primary-menu > ul > li, .main-navigation .primary-menu > li {
+	width: 100%;
+	padding: 0;
+	text-align: center;
+}
+
+.site-header .header-dropdown .header-dropdown-content .signup-form {
+	display: none;
+	padding: 0 20px;
+	color: black;
+}
+
+.site-header .header-dropdown .header-dropdown-content .signup-form a.back {
+	display: inline;
+}
+
+.site-header .header-dropdown .header-dropdown-content .signup-form .signup-email-form {
+	margin: 20px 22% 0;
+	text-align: center;
+}
+
+.site-header .header-dropdown .header-dropdown-content .signup-form .policy {
+	line-height: 18px;
+	display: block;
+}
+
+.site-header .header-dropdown .header-dropdown-content .signup-form input[type="email"] {
+	border: none;
+    border-bottom: 1px solid black;
+    color: black;
+}
+
+.site-header .header-dropdown .header-dropdown-content .signup-form input[type="submit"] {
+	background: #faf7f2;
+    color: black;
+    border: 1px solid black;
+    width: 100%;
+}
+
+.main-navigation .primary-menu > ul > li:after, .main-navigation .primary-menu > li:after {
+	content: unset;
+}
+
+.guide {
+	margin-top: 100px !important;
+	color: black;
+}
+
+.guide .left-sidebar {
+	text-transform: uppercase;
+	margin-top: 65px;
+}
+
+.guide .left-sidebar ul {
+	list-style: none;
+}
+
+.guide .left-sidebar h5 {
+	margin-bottom: 30px;
+}
+
+.guide .left-sidebar .filter h5 {
+	margin-bottom: 10px;
+}
+
+.guide .left-sidebar li {
+	position: relative;
+	margin-bottom: 0;
+	line-height: 23px;
+	font-size: 16px;
+}
+
+.guide .left-sidebar li a {
+	text-decoration: none;
+	color: black;
+}
+
+.guide .left-sidebar li:after {
+	position: absolute;
+	content: '';
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	border: 1px solid black;
+	top: 5px;
+	left: -25px;
+}
+
+.guide .left-sidebar li.active:after {
+	background-color: black;
+}
+
+.guide .list h4.city-name {
+	margin-bottom: 15px;
+	padding: 0 10px;
+}
+
+.guide .list .items {
+	display: flex;
+	flex-wrap: wrap;
+	grid-gap: 1em 0;
+	font-size: 14px;
+}
+
+.guide .list .item {
+	width: calc(100% / 3);
+	padding: 5px 10px;
+}
+
+.guide .list .item .img-wrapper {
+	position: relative;
+}
+
+.guide .list .item img {
+	border-radius: 10px;
+}
+
+.guide .list .item .rating {
+	line-height: 24px;
+	padding: 0 10px;
+	position: absolute;
+	right: 10px;
+	bottom: 20px;
+	border-radius: 15px;
+	background-color: white;
+}
+
+.guide .list .item .rating i {
+	margin-left: 3px;
+	font-size: 16px;
+}
+
+.guide .list .item .category {
+	border: 1px solid black;
+	text-transform: uppercase;
+	padding: 5px 10px;
+	border-radius: 15px;
+	font-size: 12px;
+}
+
+.guide .list .item h4.name {
+	margin-bottom: 0;
+	margin-top: 10px;
+	line-height: 30px;
+}
+
+.guide .list .no-result {
+	text-align: center;
+}
+
+.guide .list .item .address {
+	line-height: 20px;
+	margin-bottom: 15px;
+}
+
+.guide .list .item .detail {
+	min-height: 100px;
+	line-height: 18px;
+}
+
+.guide .list .item .site {
+	text-transform: uppercase;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.guide .list .item .site a {
+	text-decoration: none;
+	color: black;
+}
+
+.guide .pagination {
+	text-align: center;
+	margin-top: 1.5em;
+}
+
+.guide .pagination ul {
+	display: inline-block;
+	list-style: none;
+	margin-bottom: 0;
+}
+
+.guide .pagination li {
+	display: inline-block;
+	position: relative;
+	margin-bottom: 0;
+}
+
+.guide .pagination li a {
+	padding: 10px 25px;
+	text-decoration: none;
+	color: black;
+}
+
+.guide .pagination li.prev-nav:after,
+.guide .pagination li.next-nav:after {
+	position: absolute;
+	content: '';
+	height: 40px;
+	width: 40px;
+	border-radius: 50%;
+	border: 1px solid black;
+	left: calc( 100% / 2 - 20px );
+	top: -1px;
+	z-index: -1;
+}
+
+.guide .pagination li.disabled a {
+	cursor: not-allowed;
+}
+
+.guide .pagination li.active a {
+	color: red;
+}
+
+.follow-us {
+	margin: 100px 0 !important;
+}
+
+.follow-us .text-center {
+	text-align: center;
+}
+
+.follow-us h4 {
+	color: #000000;
+    font-family: "Roboto", Sans-serif;
+    font-weight: 400;
+	font-size: 19px;
+	letter-spacing: 1px;
+	margin-bottom: 5px;
+}
+
+.follow-us p {
+	color: #000000;
+	font-family: "Roboto", Sans-serif;
+    font-weight: 500;
+}
+
+.follow-us p.sub-title {
+	font-size: 35px;
+	line-height: 37px;
+}
+
+.follow-us p.description {
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: 400;
+}
+
+.follow-us .gallery {
+	flex-wrap: wrap;
+	grid-gap: 1em 0;
+}
+
+.follow-us .gallery .item {
+	width: 25%;
+	padding: 10px;
+}
+
+.follow-us .gallery img {
+	border-radius: 15px;
+}
+
+.site-footer {
+	background-color: #020C20;
+	padding: 200px 50px;
+}
+
+.site-footer .site-footer-wrapper {
+	padding-right: 0;
+}
+
+.site-footer h2.contact-email,
+.site-footer p.contact-desc {
+	text-align: center;
+	margin-top: 0;
+}
+
+.site-footer p.contact-desc {
+	color: #D1D1D1;
+}
+
+.site-footer h2.contact-email {
+	color: white;
+}
+
+.email-inline-form {
+	margin-bottom: -10px;
+}
+
+.email-inline-form input[type="email"] {
+  float: left !important;
+}
+
+.email-inline-form .wpcf7-not-valid-tip {
+	position: absolute;
+	bottom: 0;
+}
+
+@media (min-width: 992px) {
+	body.page-has-thumbnail .page-header-wrapper .entry-desc {
+		font-size: 14px;
+	}
+
+	body.page-has-thumbnail .page-header-wrapper .entry-title {
+		font-size: 45px;
+		line-height: 60px;
+	}
+}
+
+/* forever css  */
+
+@media (max-width: 767px) {
+	
+	/*--- Our Story ---*/
+
+	.site-branding {
+		font-size: 28px;
+    	flex: unset;
+    	text-transform: uppercase;
+	}
+	
+	.site-header .custom-logo-link .custom-logo {
+    	width: 100px;
+	}
+
+	.follow-us .gallery .item {
+	    width: 50%;
+	    padding: 10px;
+	}
+	
+	.site-footer h2.contact-email {
+		font-size: 28px;
+		color: white;
+	}
+
+	/*--- City Guide ---*/
+
+	.elementor-column.elementor-col-80, .elementor-column[data-col="80"] {
+	  width: 80%;
+	}
+
+}
+
+/*--- City Guide ---*/
+
+@media (max-width: 888px) {
+	.guide .list .item {
+	    padding: 5px 10px;
+	    width: 50%;
+	}	
+}
+
+@media (max-width: 600px) {
+	.guide .list .item {
+	    padding: 5px 10px;
+	    width: 100%;
+	}	
+	.guide .left-sidebar li a {
+		text-decoration: none;
+		color: black;
+		font-size: 12px;
+		display: block;
+	  	white-space: nowrap; 
+	  	overflow: hidden;
+	  	text-overflow: ellipsis;
+	}
+}
+
+.guide .left-sidebar li a {
+	text-decoration: none;
+	color: black;
+	display: block;
+  	white-space: nowrap; 
+  	overflow: hidden;
+  	text-overflow: ellipsis;
+}
+
+.elementor-column.elementor-col-20, .elementor-column[data-col="20"] {
+    width: 20%;
+}
+

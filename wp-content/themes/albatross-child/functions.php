@@ -186,7 +186,7 @@ function the_list() {
 			<?php foreach( $list as $item ) : ?>
 			<div class="item">
 				<div class="img-wrapper">
-					<img src="http://192.168.108.55/wp-content/uploads/2023/01/rest.jpg" alt="">
+					<img src="<?php echo esc_url(home_url('/wp-content/uploads/2023/01/rest.jpg')) ?>" alt="">
 					<span class="rating">
 						<?php echo $item->rating; ?>
 						<i aria-hidden="true" class="far fa-heart"></i>

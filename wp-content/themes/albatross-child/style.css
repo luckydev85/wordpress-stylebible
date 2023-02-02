@@ -391,6 +391,11 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 
 /* forever css  */
 
+.elementor-widget-heading .elementor-heading-title.elementor-size-medium {
+    font-size: 25px;
+    font-weight: 600 !important;
+}
+
 @media (max-width: 767px) {
 	
 	/*--- Our Story ---*/
@@ -415,6 +420,13 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 		color: white;
 	}
 
+	/**/
+
+	.elementor-column .elementor-col-33 .elementor-inner-column .elementor-element .elementor-element-3e58402 {
+		padding: 35px;
+	}
+	/**/
+
 	/*--- City Guide ---*/
 
 	.elementor-column.elementor-col-80, .elementor-column[data-col="80"] {
@@ -425,27 +437,16 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 
 /*--- City Guide ---*/
 
-@media (max-width: 888px) {
-	.guide .list .item {
-	    padding: 5px 10px;
-	    width: 50%;
-	}	
+.guide .left-sidebar .filter h5 {
+    margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-@media (max-width: 600px) {
-	.guide .list .item {
-	    padding: 5px 10px;
-	    width: 100%;
-	}	
-	.guide .left-sidebar li a {
-		text-decoration: none;
-		color: black;
-		font-size: 12px;
-		display: block;
-	  	white-space: nowrap; 
-	  	overflow: hidden;
-	  	text-overflow: ellipsis;
-	}
+.guide .left-sidebar ul {
+    list-style: none;
+    padding-left: 35px;
 }
 
 .guide .left-sidebar li a {
@@ -459,5 +460,125 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 
 .elementor-column.elementor-col-20, .elementor-column[data-col="20"] {
     width: 20%;
+}
+
+.site-footer .site-info {
+    font-size: 20px;
+    line-height: 1.5;
+}
+
+@media (max-width: 991px) {
+
+	.site-header .site-branding {
+	    margin-right: 50px;
+	}
+
+	body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
+		padding: 0 20%;
+	}
+
+	.guide .list .item {
+	    padding: 5px 10px;
+	    width: 50%;
+	}	
+
+	.follow-us p.description {
+	    font-size: 14px;
+	    line-height: 20px;
+	    font-weight: 400;
+	}
+	
+}
+
+@media (max-width: 767px) {
+	
+	body.page-has-thumbnail .page-header-wrapper.city-guide h1.entry-title {
+    	font-size: 40px;
+    	line-height: 50px;
+	}
+
+	.guide .left-sidebar .filter h5 {
+	    margin-bottom: 10px;
+	    font-size: 15px;
+	    white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	}
+
+	.site-footer .site-info {
+	    font-size: 15px;
+	}
+
+}
+
+@media (max-width: 575px) {
+
+	.site-header .site-branding {
+	    margin-right: 25px;
+	}
+
+	body.page-has-thumbnail .page-header-wrapper.city-guide h1.entry-title {
+    	font-size: 30px;
+    	line-height: 40px;
+	}
+
+	body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
+		padding: 0 10%;
+	}
+
+	.guide .list .item {
+	    padding: 5px 10px;
+	    width: 100%;
+	}
+
+	.guide .left-sidebar li a {
+		text-decoration: none;
+		color: black;
+		font-size: 12px;
+		display: block;
+	  	white-space: nowrap; 
+	  	overflow: hidden;
+	  	text-overflow: ellipsis;
+	}
+
+	.guide .pagination li a {
+	    font-size: 15px;
+	    padding: 10px 10px;
+	    text-decoration: none;
+	    color: black;
+	}
+
+	.guide .pagination li.prev-nav:after, .guide .pagination li.next-nav:after {
+	    position: absolute;
+	    content: '';
+	    height: 30px;
+	    width: 30px;
+	    border-radius: 50%;
+	    border: 1px solid black;
+	    left: calc( 100% / 2 - 15px );
+	    top: calc(100% / 2 - 15px);
+	    z-index: -1;
+	}
+
+	.follow-us h4 {
+	    color: #000000;
+	    font-family: "Roboto", Sans-serif;
+	    font-weight: 400;
+	    font-size: 15px;
+	    letter-spacing: 1px;
+	    margin-bottom: 5px;
+	}
+	
+	.follow-us p.sub-title {
+	    font-size: 30px;
+	    line-height: 37px;
+	}
+
+	.follow-us p.description {
+	    font-size: 12px;
+	    line-height: 20px;
+	    font-weight: 400;
+	}
+
 }
 

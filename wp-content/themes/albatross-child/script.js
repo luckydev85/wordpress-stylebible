@@ -48,7 +48,7 @@ var CityGuide = function() {
             jQuery(".site-header .signup-form").css("display", "none");
         },
         changeUrlToSignUpForm: function() {
-            //jQuery("#menu-item-2545 a").attr("href", "javascript:CityGuide.signUpForm();");
+            jQuery("#menu-item-2545 a").attr("href", "javascript:CityGuide.signUpForm();");
         },
         signUpForm: function() {
             jQuery(".site-header .primary-menu-container").css("display", "none");

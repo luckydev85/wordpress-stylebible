@@ -19,7 +19,8 @@
 
 	<?php wp_head(); ?>
     <script>
-        var isLoggedIn = false;
+        var isLoggedIn = <?php echo isset($_SESSION['user_email']) ? 1 : 0; ?>;
+        var ajaxUrl = '<?php echo esc_url(home_url('/wp-admin/admin-ajax.php')); ?>';
     </script>
 </head>
 
@@ -48,11 +49,11 @@
 									)
 								);
 								?>
-                                <div class="signup-form">
+                                <div class="signup-form display-none">
                                     <a class="back" href="javascript:CityGuide.backToNav();">BACK</a>
                                     <div class="signup-email-form">
                                         <h4>To access this section, sign up to our mailing list to gain full access</h4>
-                                        <?php echo do_shortcode('[contact-form-7 id="2897" title="SignUp Form"]'); ?>
+                                        <?php echo do_shortcode('[contact-form-7 id="2724" title="Email Form"]'); ?>
                                         <span class="policy">
                                             By signing up to our mailing list  you agree to our
                                             <span style="text-decoration: underline;">terms and conditiions</span>

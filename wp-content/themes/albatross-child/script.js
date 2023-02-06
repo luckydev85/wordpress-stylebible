@@ -13,7 +13,7 @@ var CityGuide = function() {
     var ajaxRequest = function() {
         jQuery.ajax({
             method: 'POST',
-            url: 'http://wilsonairlines.com/wp-admin/admin-ajax.php',
+            url: ajaxUrl,
             data: {
                 action:     'the_list',
                 filters,
@@ -30,6 +30,16 @@ var CityGuide = function() {
     }
 
     return {
+		init: function() {
+			if( !isLoggedIn ) {
+				jQuery("#access_guide").attr("href", "javascript:CityGuide.openMenu();");
+			}
+		},
+		openMenu: function() {
+			jQuery(".scroll-to-top-button").click();
+			jQuery("#header-dropdown-toggle").click();
+			CityGuide.signUpForm();
+		},
         setFilter: function( key, id, value ) {
             if( key == 'city' ) {
                 jQuery("h4.city-name").text( value );
@@ -44,21 +54,16 @@ var CityGuide = function() {
             ajaxRequest( filters );
         },
         backToNav: function() {
-            jQuery(".site-header .primary-menu-container").css("display", "block");
-            jQuery(".site-header .signup-form").css("display", "none");
-        },
-        changeUrlToSignUpForm: function() {
-            jQuery("#menu-item-2545 a").attr("href", "javascript:CityGuide.signUpForm();");
+            jQuery(".site-header .primary-menu-container").removeClass("display-none");
+            jQuery(".site-header .signup-form").addClass("display-none");
         },
         signUpForm: function() {
-            jQuery(".site-header .primary-menu-container").css("display", "none");
-            jQuery(".site-header .signup-form").css("display", "block");
+            jQuery(".site-header .primary-menu-container").addClass("display-none");
+            jQuery(".site-header .signup-form").removeClass("display-none");
         }
     }
 }();
 
-jQuery(function() {
-    if( !isLoggedIn ) {
-        CityGuide.changeUrlToSignUpForm();
-    }
+jQuery(document).ready(function(){
+	CityGuide.init();
 });

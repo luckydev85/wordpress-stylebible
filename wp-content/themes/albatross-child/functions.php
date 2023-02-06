@@ -13,8 +13,41 @@ function my_theme_enqueue_styles() {
 		array( $parenthandle ),
 		$theme->get( 'Version' ) // This only works if you have Version defined in the style header.
 	);
+	
 	wp_enqueue_script( 'child-style', get_stylesheet_directory_uri() . '/script.js', array(), '', true );
 }
+
+add_action('init', 'start_session', 1);
+function start_session() {
+	if(!session_id()) {
+		session_start();
+	}
+}
+
+add_action('wp_logout','end_session');
+add_action('wp_login','end_session');
+add_action('end_session_action','end_session');
+
+function end_session() {
+	session_destroy ();
+}
+
+add_action('init', function() {
+    if ( strpos($_SERVER['REQUEST_URI'], 'cityguide') !== false && !isset( $_SESSION['user_email'] ) ) 
+    {
+        wp_redirect('/');
+        exit;
+    }
+});
+
+add_filter('walker_nav_menu_start_el', 'change_city_guide_url', 999);
+function change_city_guide_url($menu_item) {
+    if ( strpos($menu_item, 'cityguide') !== false && !isset($_SESSION['user_email']) ) {
+        $menu_item = str_replace(esc_url(home_url('/cityguide/')), 'javascript:CityGuide.signUpForm();', $menu_item);
+    }
+    return $menu_item;
+}
+
 
 function the_follow_us() {
 	?>
@@ -286,4 +319,20 @@ function retrieve_url( $url ) {
 	$site_url = preg_replace('/\/.*$/', '', $site_url);
 
 	return $site_url;
+}
+
+function custom_wpcf7_form_class_attr( $class ){ 
+	if( isset($_SESSION['user_email']) )
+		$class .= ' display-signup-after-message';
+    return $class;
+}
+add_filter('wpcf7_form_class_attr', 'custom_wpcf7_form_class_attr', 10, 1);
+
+add_action( 'wpcf7_mail_sent', 'store_email_to_session' );
+function store_email_to_session($contact_form) {
+	$form_id = $contact_form->id();
+    $submission = WPCF7_Submission::get_instance(); 
+    $posted_data = $submission->get_posted_data();
+	
+	$_SESSION['user_email'] = $posted_data['signup-email'];
 }

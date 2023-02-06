@@ -14,8 +14,13 @@ Text Domain:  albatrosschild
 /** kovalchuk css */
 body {
     overflow-x: hidden;
-    
+    background: #FCF8F1;
 }
+
+.display-none {
+	display: none;
+}
+
 .site-header .navigation-container > * {
 	margin-left: 0;
 }
@@ -86,7 +91,6 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 }
 
 .site-header .header-dropdown .header-dropdown-content .signup-form {
-	display: none;
 	padding: 0 20px;
 	color: black;
 }
@@ -109,6 +113,15 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 	border: none;
     border-bottom: 1px solid black;
     color: black;
+	padding: 15px 0;
+	margin-bottom: 20px;
+}
+
+.site-header .header-dropdown .header-dropdown-content input[type="email"]:active,
+.site-header .header-dropdown .header-dropdown-content input[type="email"]:focus-visible{
+	border: none;
+	outline: none;
+	border-bottom: 1px solid black;
 }
 
 .site-header .header-dropdown .header-dropdown-content .signup-form input[type="submit"] {
@@ -116,6 +129,11 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
     color: black;
     border: 1px solid black;
     width: 100%;
+	padding: 10px 0;
+}
+
+.site-header .header-dropdown .header-dropdown-content .signup-form .wpcf7-response-output {
+	margin-top: 0;
 }
 
 .main-navigation .primary-menu > ul > li:after, .main-navigation .primary-menu > li:after {
@@ -123,8 +141,9 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 }
 
 .guide {
-	margin-top: 100px !important;
+	padding-top: 100px;
 	color: black;
+	background: white;
 }
 
 .guide .left-sidebar {
@@ -252,7 +271,7 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 
 .guide .pagination {
 	text-align: center;
-	margin-top: 1.5em;
+	margin: 2.5em 0;
 }
 
 .guide .pagination ul {
@@ -283,7 +302,6 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 	border: 1px solid black;
 	left: calc( 100% / 2 - 20px );
 	top: -1px;
-	z-index: -1;
 }
 
 .guide .pagination li.disabled a {
@@ -376,6 +394,24 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 .email-inline-form .wpcf7-not-valid-tip {
 	position: absolute;
 	bottom: 0;
+}
+
+.signup-after-message {
+	margin-bottom: 0;
+	display: none;
+}
+
+.signup-after-message p {
+	padding: 0 10px;
+	border: 1px solid #46b450;
+}
+
+.display-signup-after-message .email-inline-form {
+	display: none;
+}
+
+.display-signup-after-message .signup-after-message {
+	display: block;
 }
 
 @media (min-width: 992px) {

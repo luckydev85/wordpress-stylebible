@@ -11,6 +11,20 @@ var CityGuide = function() {
     }
 
     var ajaxRequest = function() {
+		jQuery.blockUI({
+			css: { 
+				border: 'none', 
+				padding: '15px', 
+				backgroundColor: 'rgba(0, 0, 0, .4)',
+				'-webkit-border-radius': '10px', 
+				'-moz-border-radius': '10px', 
+				color: '#fff',
+				width: '140px',
+				left: 'calc(50% - 70px)',
+				padding: 0
+        	},
+			message: 'Loading...'
+		}); 
         jQuery.ajax({
             method: 'POST',
             url: ajaxUrl,
@@ -21,9 +35,11 @@ var CityGuide = function() {
             },
             success: function(res) {
                 jQuery(".item-list").html(res);
+				jQuery.unblockUI();
             }, 
             error: function(err) {
                 console.log(err);
+				jQuery.unblockUI();
                 alert('Error is occuered!');
             }
         });
@@ -34,6 +50,12 @@ var CityGuide = function() {
 			if( !isLoggedIn ) {
 				jQuery("#access_guide").attr("href", "javascript:CityGuide.openMenu();");
 			}
+			
+			document.addEventListener( 'wpcf7mailsent', function( event ) {
+				if ( '2974' == event.detail.contactFormId ) {
+					ajaxRequest();
+				}
+			}, false );
 		},
 		openMenu: function() {
 			jQuery(".scroll-to-top-button").click();
@@ -60,7 +82,38 @@ var CityGuide = function() {
         signUpForm: function() {
             jQuery(".site-header .primary-menu-container").addClass("display-none");
             jQuery(".site-header .signup-form").removeClass("display-none");
-        }
+        },
+		vote: function(establelishmentId) {
+			jQuery.ajax({
+				method: 'POST',
+				url: ajaxUrl,
+				data: {
+					action:     'the_can_leave_review',
+					establelishmentId
+				},
+				dataType: "json",
+				success: function(res) {
+					if( res.review_id === null ) {
+						jQuery("#popmake-2963 .popmake-content form").removeClass("display-none");
+						jQuery("#popmake-2963 .popmake-content .already-exist-review").addClass("display-none");
+						
+						jQuery('#popmake-2963 input[name="establelishment_id"]').val( establelishmentId );
+						/** form init */
+						jQuery('#popmake-2963 form').removeClass('sent').removeClass('invalid').addClass('init');
+						jQuery('#popmake-2963 form').attr('data-status', 'init');
+					} else {
+						jQuery("#popmake-2963 .popmake-content form").addClass("display-none");
+						jQuery("#popmake-2963 .popmake-content .already-exist-review").removeClass("display-none");
+					}
+					
+					PUM.open(2963);
+				}, 
+				error: function(err) {
+					console.log(err);
+					alert('Error is occuered!');
+				}
+			});
+		}
     }
 }();
 

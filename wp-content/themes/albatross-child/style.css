@@ -225,6 +225,14 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 	background-color: white;
 }
 
+.guide .list .item .rating a {
+	color: black;
+}
+
+.guide .list .item .rating a:focus {
+	border: none;
+}
+
 .guide .list .item .rating i {
 	margin-left: 3px;
 	font-size: 16px;
@@ -310,6 +318,40 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 
 .guide .pagination li.active a {
 	color: red;
+}
+
+#popmake-2963 label {
+	color: black;
+}
+
+#popmake-2963 textarea {
+	background: #FFF;
+}
+
+#popmake-2963 input[type="submit"] {
+	padding: 7px 15px;
+	float: right;
+	background: white;
+	border: 1px solid black;
+	color: black;
+}
+
+#popmake-2963 form p {
+	margin-bottom: 15px;
+}
+
+#popmake-2963 .wpcf7-response-output {
+	margin: 0;
+	color: black;
+	font-weight: 400;
+}
+
+#popmake-2963 h4 {
+	margin: 15px 0;
+}
+
+#popmake-2963 .popmake-content {
+	font-weight: 400;
 }
 
 .follow-us {

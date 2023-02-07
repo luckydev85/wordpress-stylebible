@@ -4,7 +4,7 @@ function my_theme_enqueue_styles() {
 	$parenthandle = 'parent-style'; // This is 'albatross-style' for the Twenty Fifteen theme.
 	$theme        = wp_get_theme();
 	wp_enqueue_style( $parenthandle,
-		get_template_directory_uri() . '/style.css',
+		get_template_directory_uri() . '/style.css?' . time(),
 		array(),  // If the parent theme code has a dependency, copy it to here.
 		$theme->parent()->get( 'Version' )
 	);
@@ -13,8 +13,8 @@ function my_theme_enqueue_styles() {
 		array( $parenthandle ),
 		$theme->get( 'Version' ) // This only works if you have Version defined in the style header.
 	);
-	
-	wp_enqueue_script( 'child-style', get_stylesheet_directory_uri() . '/script.js', array(), '', true );
+	wp_enqueue_script( 'jquery-blockUI', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js', array('jquery'), '2.7', true );
+	wp_enqueue_script( 'child-style', get_stylesheet_directory_uri() . '/script.js?' . time(), array(), '', true );
 }
 
 add_action('init', 'start_session', 1);
@@ -197,7 +197,7 @@ function the_list() {
 	$list = $wpdb->get_results( $query );
 
 	$cnt_query	=	"SELECT
-						COUNT(*) TOTAL_CNT
+						COUNT(*)
 					FROM
 						( SELECT establelishment_id, city_id, cat_id, sub_cat_id FROM wp_stylebible_match_list" . (!empty($filter_conds) ? " WHERE " . implode(" AND ", $filter_conds) : "") . " GROUP BY establelishment_id ) match_list,
 						wp_stylebible_establelishments,
@@ -211,8 +211,7 @@ function the_list() {
 						AND match_list.sub_cat_id = wp_stylebible_sub_categories.sub_cat_id 
 						AND wp_stylebible_establelishments.is_deleted = 'n'";
 	
-	$result = $wpdb->get_results( $cnt_query );
-	$total_cnt = $result[0]->TOTAL_CNT;
+	$total_cnt = $wpdb->get_var( $cnt_query );
 	if( $total_cnt > 0 ) {
 	?>
 		<div class="items">
@@ -222,7 +221,9 @@ function the_list() {
 					<img src="<?php echo esc_url(home_url('/wp-content/uploads/2023/01/rest.jpg')) ?>" alt="">
 					<span class="rating">
 						<?php echo $item->rating; ?>
-						<i aria-hidden="true" class="far fa-heart"></i>
+						<a href="javascript:CityGuide.vote(<?php echo $item->establelishment_id; ?>);">
+							<i aria-hidden="true" class="far fa-heart"></i>
+						</a>
 					</span>
 				</div>
 				
@@ -328,11 +329,63 @@ function custom_wpcf7_form_class_attr( $class ){
 }
 add_filter('wpcf7_form_class_attr', 'custom_wpcf7_form_class_attr', 10, 1);
 
-add_action( 'wpcf7_mail_sent', 'store_email_to_session' );
-function store_email_to_session($contact_form) {
+add_action( 'wpcf7_mail_sent', 'store_data' );
+function store_data( $contact_form ) {
 	$form_id = $contact_form->id();
-    $submission = WPCF7_Submission::get_instance(); 
+	$submission = WPCF7_Submission::get_instance(); 
     $posted_data = $submission->get_posted_data();
 	
-	$_SESSION['user_email'] = $posted_data['signup-email'];
+	if( $form_id == 2724 ) { // email submission
+		store_email_to_session( $posted_data['signup-email'] );
+	} else if( $form_id == 2974 ) { // review submission
+		store_review_to_db( $posted_data );
+	}
+}
+
+function store_email_to_session($email) {
+	$_SESSION['user_email'] = $email;
+}
+
+function store_review_to_db( $posted_data ) {
+	global $wpdb;
+	// update rating of establelishment.
+	$wpdb->query($wpdb->prepare("
+		UPDATE
+			wp_stylebible_establelishments
+		SET
+			rating=rating+1
+		WHERE
+			establelishment_id=" . $posted_data['establelishment_id']));
+	// insert review to db
+	$store_data = [
+		'establelishment_id'	=>	$posted_data['establelishment_id'],
+		'review_content'		=>	$posted_data['review_content'],
+		'customer_email'		=>	$_SESSION['user_email']
+	];
+	$wpdb->insert(
+		'wp_stylebible_reviews',
+		$store_data,
+		[
+			'%d',
+			'%s',
+			'%s'
+		]
+	);
+}
+
+add_action( 'wp_ajax_the_can_leave_review',			'the_can_leave_review' );
+add_action( 'wp_ajax_nopriv_the_can_leave_review',	'the_can_leave_review' );
+function the_can_leave_review() {
+	global $wpdb;
+	$review_id = $wpdb->get_var(
+		'SELECT
+			review_id
+		FROM
+			wp_stylebible_reviews
+		WHERE
+			establelishment_id=' . $_POST['establelishmentId'] . '
+			and customer_email=\'' . $_SESSION['user_email'] . '\'');
+	
+	echo json_encode(['review_id' => $review_id]);
+	wp_die();
 }

@@ -3,7 +3,7 @@ Tags: contact form 7 redirect, contact form 7 thank you page, redirect cf7, redi
 Contributors: yuvalsabar, regevlio
 Requires at least: 5.2.0
 Tested up to: 6.1
-Stable tag: 2.7.0
+Stable tag: 2.8.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -70,6 +70,11 @@ No, it doesn't. The plugin does not disables any of Contact Form 7 normal behavi
 
 No. One of the reasons we developed this plugin, is because on_send_ok is now deprecated, and is going to be abolished by the end of 2017. This plugin is the only redirect plugin for Contact Form 7 that has been updated to use [DOM events](https://contactform7.com/dom-events/) to perform redirect, as Contact Form 7 developer Takayuki Miyoshi recommends.
 
+= How to use files shortcodes =
+[{field_name}-filename] - will replace the shortcode with the file name
+[{field_name}-base_64_file] - will replace the shortcode with a base64 representation of a file
+[{field_name}-path] - will replace the shortcode with the file path on the server
+
 == Screenshots ==
 
 1. Actions tab
@@ -79,6 +84,12 @@ No. One of the reasons we developed this plugin, is because on_send_ok is now de
 5. Extensions tab
 
 == Changelog ==
+
+= 2.8.0 =
+* Fixed repeater wrong numbering
+* Fixed conditional logic support when a tag was removed
+* Patched security issue involving "registration add-on"
+* Updated Freemius SDK to 2.5.3
 
 = 2.7.0 =
 * Fixed incorrect checkbox/selectbox values when exporting leads to csv

@@ -18,24 +18,6 @@ class Qs_Api {
 		$this->promotions_url      = WPCF7_PRO_REDIRECT_PLUGIN_PROMOTIONS_URL;
 	}
 
-	public function extension_has_update( $extension ) {
-		$current_ver = $extension->get_extension_ver();
-
-		$params = array(
-			'action'        => 'license_key_validate',
-			'store_code'    => $this->store_id,
-			'license_key'   => $extension->get_serial(),
-			'domain'        => $this->get_current_domain(),
-			'sku'           => $extension->get_name(),
-			'activation_id' => $extension->get_activation_id(),
-		);
-
-		$results = $this->api_call( $this->activation_url, $params );
-
-		if ( ! is_wp_error( $results ) && isset( $results->data->version ) ) {
-			return floatval( $results->data->version ) > floatval( $current_ver ) ? $results->data->version : '';
-		}
-	}
 
 	/**
 	 * Get action extension changelog

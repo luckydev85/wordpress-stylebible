@@ -14,6 +14,8 @@ function my_theme_enqueue_styles() {
 		$theme->get( 'Version' ) // This only works if you have Version defined in the style header.
 	);
 	wp_enqueue_script( 'jquery-blockUI', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js', array('jquery'), '2.7', true );
+	wp_enqueue_script( 'polyfill', 'https://polyfill.io/v3/polyfill.min.js?features=default');
+	wp_enqueue_script( 'google-maps', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly');
 	wp_enqueue_script( 'child-style', get_stylesheet_directory_uri() . '/script.js?' . time(), array(), '', true );
 }
 
@@ -235,7 +237,7 @@ function the_list() {
 						<?php echo $item->establelishment_name; ?>
 					</h4>
 					<div class="address">
-						<?php echo $item->address; ?>
+						<a href="javascript:CityGuide.showMap('<?php echo $item->address; ?>');"><?php echo $item->address; ?></a>
 					</div>
 					<div class="detail">
 						<?php echo $item->why_we_love_it; ?>

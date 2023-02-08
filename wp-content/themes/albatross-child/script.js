@@ -113,6 +113,9 @@ var CityGuide = function() {
 					alert('Error is occuered!');
 				}
 			});
+		},
+		showMap: function(address) {
+			PUM.open(2983);
 		}
     }
 }();

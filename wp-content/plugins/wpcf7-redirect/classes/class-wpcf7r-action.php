@@ -924,6 +924,9 @@ class WPCF7R_Action
 		$valid = false;
 		if (isset($and_row['condition']) && $and_row['condition']) {
 			$tag_name      = isset($and_row['if']) ? $and_row['if'] : '';
+			if(!$tag_name){
+				return true;
+			}
 			$posted_value  = $this->get_form_tag_posted_data($tag_name);
 			$compare_value = $and_row['value'];
 			switch ($and_row['condition']) {

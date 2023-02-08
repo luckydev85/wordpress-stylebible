@@ -80,6 +80,10 @@
                     </a>
                 </div><!-- .site-branding -->
             </div>
+			
+			<div class="nav-social-link">
+				<button class="instagram-link"></button>
+			</div>
             
         </div>
     </header><!-- #masthead -->

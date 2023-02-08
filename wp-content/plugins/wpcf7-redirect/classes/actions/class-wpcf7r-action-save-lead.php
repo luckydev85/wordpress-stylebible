@@ -145,6 +145,10 @@ class WPCF7R_Action_Save_Lead extends WPCF7R_Action {
 		if ( $files ) {
 			foreach ( $files as $file_key => $file_path ) {
 
+				if (is_array($file_path)) {
+					$file_path = reset($file_path);
+				}
+
 				$type = pathinfo( $file_path, PATHINFO_EXTENSION );
 
 				$submitted_files[ $file_key ] = array(

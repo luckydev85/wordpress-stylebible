@@ -512,6 +512,7 @@ class WPCF7R_Form {
 	 * Collect the mail tags from the form
 	 */
 	static function get_mail_tags() {
+		$mailtags = array();
 		// If this is a new form there are no tags yet
 		if ( ! isset( self::$cf7_form ) || ! self::$cf7_form ) {
 			return;

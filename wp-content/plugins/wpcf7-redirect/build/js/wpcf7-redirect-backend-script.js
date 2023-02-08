@@ -632,7 +632,7 @@ var wpcf7_redirect_admin;
 			e.preventDefault();
 			var $clicked_button = $(e.currentTarget);
 			var $parent_element = $clicked_button.parents('[data-repeater-template]');
-			var next_row_count = $parent_element.find('[data-repeater-row-count]').length - 1;
+			var next_row_count = $parent_element.find('[data-repeater-row-count]').last().data('repeater-row-count');
 			next_row_count++;
 			var template = $parent_element.data('repeater-template');
 			template_html = this.replaceAll(template.template, 'new_row', next_row_count);

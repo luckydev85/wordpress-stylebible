@@ -1,4 +1,4 @@
-/*! elementor - v3.10.1 - 17-01-2023 */
+/*! elementor - v3.10.2 - 29-01-2023 */
 (self["webpackChunkelementor"] = self["webpackChunkelementor"] || []).push([["lightbox"],{
 
 /***/ "../assets/dev/js/frontend/utils/icons/e-icons.js":

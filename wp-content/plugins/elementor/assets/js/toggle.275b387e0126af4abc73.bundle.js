@@ -1,4 +1,4 @@
-/*! elementor - v3.10.1 - 17-01-2023 */
+/*! elementor - v3.10.2 - 29-01-2023 */
 "use strict";
 (self["webpackChunkelementor"] = self["webpackChunkelementor"] || []).push([["toggle"],{
 

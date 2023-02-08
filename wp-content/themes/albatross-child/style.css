@@ -63,10 +63,6 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 	border: none;
 }
 
-.site-header .site-branding {
-	margin-right: 64px;
-}
-
 .site-header .header-dropdown-toggle:not(.toggled-on) {
 	background-image: url(images/menu_open1.svg);
 }
@@ -134,6 +130,21 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 
 .site-header .header-dropdown .header-dropdown-content .signup-form .wpcf7-response-output {
 	margin-top: 0;
+}
+
+.site-header .nav-social-link {
+	display: flex;
+    flex-wrap: nowrap;
+    flex: 0 1 auto;
+    z-index: 21;
+	padding: 20px 12px;
+}
+
+.site-header .instagram-link {
+	background-image: url(images/instagram.svg);
+	background-color: transparent;
+	background-position: center;
+	background-repeat: no-repeat;
 }
 
 .main-navigation .primary-menu > ul > li:after, .main-navigation .primary-menu > li:after {
@@ -259,6 +270,10 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 .guide .list .item .address {
 	line-height: 20px;
 	margin-bottom: 15px;
+}
+
+.guide .list .item .address a {
+	color: black;
 }
 
 .guide .list .item .detail {
@@ -547,10 +562,6 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 
 @media (max-width: 991px) {
 
-	.site-header .site-branding {
-	    margin-right: 50px;
-	}
-
 	body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 		padding: 0 20%;
 	}
@@ -590,10 +601,6 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 }
 
 @media (max-width: 575px) {
-
-	.site-header .site-branding {
-	    margin-right: 25px;
-	}
 
 	body.page-has-thumbnail .page-header-wrapper.city-guide h1.entry-title {
     	font-size: 30px;

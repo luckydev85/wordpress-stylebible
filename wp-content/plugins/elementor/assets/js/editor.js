@@ -1,4 +1,4 @@
-/*! elementor - v3.10.1 - 17-01-2023 */
+/*! elementor - v3.10.2 - 29-01-2023 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -25997,17 +25997,37 @@ var Component = /*#__PURE__*/function (_ComponentBase) {
   }, {
     key: "defaultShortcuts",
     value: function defaultShortcuts() {
+      var shouldRun = function shouldRun() {
+        var selectedElements = elementor.selection.getElements();
+        if (!selectedElements.length) {
+          return false;
+        }
+        var hasLockedContainers = selectedElements.some(function (container) {
+          var _container$isLocked;
+          return container === null || container === void 0 ? void 0 : (_container$isLocked = container.isLocked) === null || _container$isLocked === void 0 ? void 0 : _container$isLocked.call(container);
+        });
+        return !hasLockedContainers;
+      };
       return {
         copy: {
           keys: 'ctrl+c',
-          exclude: ['input']
+          exclude: ['input'],
+          dependency: function dependency() {
+            return shouldRun();
+          }
         },
         delete: {
           keys: 'del',
-          exclude: ['input']
+          exclude: ['input'],
+          dependency: function dependency() {
+            return shouldRun();
+          }
         },
         duplicate: {
-          keys: 'ctrl+d'
+          keys: 'ctrl+d',
+          dependency: function dependency() {
+            return shouldRun();
+          }
         },
         paste: {
           keys: 'ctrl+v',

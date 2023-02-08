@@ -3,7 +3,7 @@
  * Plugin Name:  Redirection for Contact Form 7
  * Plugin URI:   https://redirection-for-contact-form7.com/
  * Description:  The ultimate add-on for Contact Form 7 - redirect to any page after submission, fire scripts, save submissions in database, and much more options to make Contact Form 7 poweful than ever.
- * Version:      2.7.0
+ * Version:      2.8.0
  * Author:       Qube One
  * Author URI:   https://redirection-for-contact-form7.com/
  * Contributors: querysolutions, yuvalsabar, regevlio
@@ -23,7 +23,7 @@ if (!defined('CF7_REDIRECT_DEBUG')) {
 	define('CF7_REDIRECT_DEBUG', get_option('wpcf_debug') ? true : false);
 }
 
-define('WPCF7_PRO_REDIRECT_PLUGIN_VERSION', '2.7.0');
+define('WPCF7_PRO_REDIRECT_PLUGIN_VERSION', '2.8.0');
 define('WPCF7_PRO_MIGRATION_VERSION', '1');
 define('WPCF7_PRO_REDIRECT_CLASSES_PATH', plugin_dir_path(__FILE__) . 'classes/');
 

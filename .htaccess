@@ -172,3 +172,8 @@ RewriteRule . /index.php [L]
 </IfModule>
 
 # END WordPress
+
+
+# Wordfence WAF
+
+# END Wordfence WAF

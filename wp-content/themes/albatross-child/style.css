@@ -130,6 +130,7 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 
 .site-header .header-dropdown .header-dropdown-content .signup-form .wpcf7-response-output {
 	margin-top: 0;
+	border-color: black;
 }
 
 .site-header .nav-social-link {
@@ -152,14 +153,14 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 }
 
 .guide {
-	padding-top: 100px;
+	padding: 50px 0;
 	color: black;
 	background: white;
 }
 
 .guide .left-sidebar {
 	text-transform: uppercase;
-	margin-top: 65px;
+	margin-top: 60px;
 }
 
 .guide .left-sidebar ul {
@@ -199,6 +200,16 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 
 .guide .left-sidebar li.active:after {
 	background-color: black;
+}
+
+.guide .left-sidebar .hidden-gems label,
+.guide .left-sidebar .hidden-gems label input[type="checkbox"] {
+	cursor: pointer;
+}
+
+.guide .left-sidebar .hidden-gems h5 {
+	display: inline;
+	margin-right: 5px;
 }
 
 .guide .list h4.city-name {
@@ -261,6 +272,11 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 	margin-bottom: 0;
 	margin-top: 10px;
 	line-height: 30px;
+	font-size: 24px;
+}
+
+.guide .list .item i.fa-map-marker-alt {
+	opacity: 0.65;
 }
 
 .guide .list .no-result {
@@ -270,6 +286,7 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 .guide .list .item .address {
 	line-height: 20px;
 	margin-bottom: 15px;
+	min-height: 20px;
 }
 
 .guide .list .item .address a {
@@ -285,11 +302,19 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 	text-transform: uppercase;
 	font-size: 12px;
 	font-weight: 600;
+	display: flex;
+	flex-wrap: nowrap;
+}
+
+.guide .list .item .site .price {
+	color: black;
+	width: 50%;
 }
 
 .guide .list .item .site a {
-	text-decoration: none;
 	color: black;
+	width: 50%;
+	text-align: right;
 }
 
 .guide .pagination {
@@ -369,8 +394,14 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 	font-weight: 400;
 }
 
+#popmake-2983 .pum-content .loader {
+	display: block;
+	background: rgba(0,0,0,0.3);
+	margin: 0 auto;
+}
+
 .follow-us {
-	margin: 100px 0 !important;
+	margin: 75px 0 !important;
 }
 
 .follow-us .text-center {
@@ -381,40 +412,17 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 	color: #000000;
     font-family: "Roboto", Sans-serif;
     font-weight: 400;
-	font-size: 19px;
+	font-size: 17px;
 	letter-spacing: 1px;
 	margin-bottom: 5px;
+	line-height: 19px;
 }
 
-.follow-us p {
-	color: #000000;
-	font-family: "Roboto", Sans-serif;
-    font-weight: 500;
-}
-
-.follow-us p.sub-title {
-	font-size: 35px;
-	line-height: 37px;
-}
-
-.follow-us p.description {
+.follow-us p.caption {
 	font-size: 18px;
 	line-height: 20px;
 	font-weight: 400;
-}
-
-.follow-us .gallery {
-	flex-wrap: wrap;
-	grid-gap: 1em 0;
-}
-
-.follow-us .gallery .item {
-	width: 25%;
-	padding: 10px;
-}
-
-.follow-us .gallery img {
-	border-radius: 15px;
+	margin: 10px 0;
 }
 
 .site-footer {
@@ -460,7 +468,7 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 
 .signup-after-message p {
 	padding: 0 10px;
-	border: 1px solid #46b450;
+	border: 1px solid black;
 }
 
 .display-signup-after-message .email-inline-form {
@@ -482,6 +490,61 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 	}
 }
 
+.blockUI {
+	display: flex;
+	justify-content: center;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    position: relative;
+    animation: rotate 1s linear infinite;
+}
+.loader::after,
+.loader::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 5px solid #FFF;
+    animation: prixClipFix 2s linear infinite;
+}
+.loader::after {
+    border-color: #FF3D00;
+    animation: prixClipFix 2s linear infinite , rotate 0.5s linear infinite reverse;
+    inset: 6px;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes prixClipFix {
+    0% {
+        clip-path: polygon(50% 50%,0 0,0 0,0 0,0 0,0 0);
+    }
+    25% {
+        clip-path: polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0);
+    }
+    50% {
+        clip-path: polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%);
+    }
+    75% {
+        clip-path: polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%);
+    }
+    100% {
+        clip-path: polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0);
+    }
+}
+
 /* forever css  */
 
 .elementor-widget-heading .elementor-heading-title.elementor-size-medium {
@@ -501,11 +564,6 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 	
 	.site-header .custom-logo-link .custom-logo {
     	width: 100px;
-	}
-
-	.follow-us .gallery .item {
-	    width: 50%;
-	    padding: 10px;
 	}
 	
 	.site-footer h2.contact-email {
@@ -570,13 +628,12 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 	    padding: 5px 10px;
 	    width: 50%;
 	}	
-
-	.follow-us p.description {
+	
+	.follow-us p.caption {
 	    font-size: 14px;
 	    line-height: 20px;
 	    font-weight: 400;
 	}
-	
 }
 
 @media (max-width: 767px) {
@@ -642,9 +699,8 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 	    border: 1px solid black;
 	    left: calc( 100% / 2 - 15px );
 	    top: calc(100% / 2 - 15px);
-	    z-index: -1;
 	}
-
+	
 	.follow-us h4 {
 	    color: #000000;
 	    font-family: "Roboto", Sans-serif;
@@ -653,17 +709,11 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 	    letter-spacing: 1px;
 	    margin-bottom: 5px;
 	}
-	
-	.follow-us p.sub-title {
-	    font-size: 30px;
-	    line-height: 37px;
-	}
 
-	.follow-us p.description {
+	.follow-us p.caption {
 	    font-size: 12px;
 	    line-height: 20px;
 	    font-weight: 400;
 	}
-
 }
 

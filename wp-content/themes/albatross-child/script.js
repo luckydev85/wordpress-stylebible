@@ -2,7 +2,8 @@ var CityGuide = function() {
     var filters = {
         city: 0,
         category: 0,
-        sort: 0
+        sort: 0,
+		hiddengem: 0
     }
 
     var pagination = {
@@ -15,7 +16,7 @@ var CityGuide = function() {
 			css: { 
 				border: 'none', 
 				padding: '15px', 
-				backgroundColor: 'rgba(0, 0, 0, .4)',
+				backgroundColor: 'transparent',
 				'-webkit-border-radius': '10px', 
 				'-moz-border-radius': '10px', 
 				color: '#fff',
@@ -23,7 +24,7 @@ var CityGuide = function() {
 				left: 'calc(50% - 70px)',
 				padding: 0
         	},
-			message: 'Loading...'
+			message: '<span class="loader"></span>'
 		}); 
         jQuery.ajax({
             method: 'POST',
@@ -56,6 +57,15 @@ var CityGuide = function() {
 					ajaxRequest();
 				}
 			}, false );
+			
+			jQuery("#hidden-gem-check").change(function(){
+				if( this.checked ) {
+					filters.hiddengem = 1;
+				} else {
+					filters.hiddengem = 0;
+				}
+				CityGuide.goPage( 1 );
+			});
 		},
 		openMenu: function() {
 			jQuery(".scroll-to-top-button").click();
@@ -67,8 +77,12 @@ var CityGuide = function() {
                 jQuery("h4.city-name").text( value );
             }
             jQuery('.filter.' + key + ' li').removeClass('active');
-            jQuery('.filter.' + key + ' li.' + key + id).addClass('active');
-            filters[key] = id;
+			if( filters[key] === id ) {
+				filters[key] = 0;
+			} else {
+            	jQuery('.filter.' + key + ' li.' + key + id).addClass('active');
+				filters[key] = id;
+			}
             CityGuide.goPage( 1 );
         },
         goPage: function( pageNum ) {
@@ -115,6 +129,24 @@ var CityGuide = function() {
 			});
 		},
 		showMap: function(address) {
+			jQuery("#popmake-2983 .pum-content").html('<span class="loader"></span>');
+			jQuery.ajax({
+				method: 'POST',
+				url: ajaxUrl,
+				data: {
+					action:     'display_google_map',
+					address
+				},
+				success: function(res) {
+					jQuery("#popmake-2983 .pum-content").html(res);
+					jQuery.unblockUI();
+				}, 
+				error: function(err) {
+					console.log(err);
+					jQuery.unblockUI();
+					alert('Error is occuered!');
+				}
+			});
 			PUM.open(2983);
 		}
     }

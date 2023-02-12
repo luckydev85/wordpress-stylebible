@@ -14,8 +14,7 @@ function my_theme_enqueue_styles() {
 		$theme->get( 'Version' ) // This only works if you have Version defined in the style header.
 	);
 	wp_enqueue_script( 'jquery-blockUI', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js', array('jquery'), '2.7', true );
-	wp_enqueue_script( 'polyfill', 'https://polyfill.io/v3/polyfill.min.js?features=default');
-	wp_enqueue_script( 'google-maps', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly');
+// 	wp_enqueue_script( 'google-geocode-maps', 'https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyBcAy9PsVjqObo7NzyaJbLO8WuIjwfk15M');
 	wp_enqueue_script( 'child-style', get_stylesheet_directory_uri() . '/script.js?' . time(), array(), '', true );
 }
 
@@ -50,46 +49,6 @@ function change_city_guide_url($menu_item) {
     return $menu_item;
 }
 
-
-function the_follow_us() {
-	?>
-	<!-- follow us gallery -->
-	<section class="follow-us elementor-section elementor-section-boxed">
-		<h4 class="text-center">
-			<?php the_field('gallery_header_title'); ?>
-		</h4>
-		<p class="text-center sub-title">
-			<?php the_field('gallery_header_sub_title'); ?>
-		</p>
-		<div class="gallery elementor-container elementor-column-gap-default">
-				<?php
-					$images = get_field('gallery_images');
-					if( $images ):
-						foreach( $images as $image_id ):
-				?>
-							<div class="item"><?php echo wp_get_attachment_image( $image_id['ID'], 'full' ); ?></div>
-				<?php
-						endforeach;
-					endif;
-				?>
-				<?php
-					$images = get_field('gallery_images');
-					if( $images ):
-						foreach( $images as $image_id ):
-				?>
-							<div class="item"><?php echo wp_get_attachment_image( $image_id['ID'], 'full' ); ?></div>
-				<?php
-						endforeach;
-					endif;
-				?>
-		</div>
-		<p class="description text-center">
-			<?php the_field('gallery_description'); ?>
-		</p>
-	</section>
-	<?php
-}
-
 function the_city_guide() {
 	?>
 		<section class="guide elementor-section elementor-section-boxed">
@@ -113,11 +72,49 @@ function the_city_guide() {
 	<?php
 }
 
+function the_follow_us() {
+	?>
+	<!-- follow us gallery -->
+	<section class="follow-us elementor-section elementor-section-boxed">
+		<div class="elementor-container elementor-column-gap-default">
+			<div class="elementor-widget-wrap elementor-element-populated">
+				<h4 class="text-center">
+					FOLLOW US ON SOCIAL
+				</h4>
+				<?php echo do_shortcode('[instagram feed="2988"]'); ?>
+				<p class="caption text-center">
+					If you want to see the latest places we’ve added head over to Instagram, simply type #StylebibleCity e.g. #StylebibleParis – and you’ll find a grid of all our Parisian favourites visually
+				</p>
+			</div>
+		</div>
+	</section>
+	<?php
+}
+
 function the_filters() {
 	global $wpdb;
 
-	$cities			=	$wpdb->get_results("select * from wp_stylebible_cities");
-	$categories		=	$wpdb->get_results("select * from wp_stylebible_categories");
+	$cities			=	$wpdb->get_results("SELECT
+												* 
+											FROM
+												wp_stylebible_cities 
+											WHERE
+												city_id IN (
+												SELECT
+													city_id 
+												FROM
+													wp_stylebible_match_list 
+											GROUP BY
+												city_id)");
+	
+	$categories		=	$wpdb->get_results("SELECT
+												* 
+											FROM
+												wp_stylebible_categories 
+											WHERE
+												category_id IN ( SELECT cat_id FROM wp_stylebible_match_list GROUP BY cat_id ) 
+											ORDER BY
+												order_number");
 
 	$filters = [
 		'city'		=>	$cities,
@@ -148,6 +145,9 @@ function the_filters() {
 				</ul>
 			</div>
 		<?php endforeach; ?>
+		<div class="filter hidden-gems">
+			<label for="hidden-gem-check"><h5>Hidden Gems</h5> <input type="checkbox" id="hidden-gem-check" ></label>
+		</div>
 	<?php
 }
 
@@ -160,6 +160,7 @@ function the_list() {
 		'city'		=>	0,
 		'category'	=>	0,
 		'sort'		=>	0,
+		'hiddengem'	=>	false
 	];
 
 	$pagination = [
@@ -171,12 +172,12 @@ function the_list() {
 		$filters	=	$_POST['filters'];
 		$pagination	=	$_POST['pagination'];
 	}
-
+	
 	$filter_conds = [];
-
+	
 	if( !empty($filters['city']) ) $filter_conds[] = 'city_id = ' . $filters['city'];
 	if( !empty($filters['category']) ) $filter_conds[] = 'cat_id = ' . $filters['category'];
-
+	
 	$query	=	"SELECT
 					wp_stylebible_establelishments.*,
 					wp_stylebible_sub_categories.sub_cat_name 
@@ -192,12 +193,13 @@ function the_list() {
 					AND match_list.cat_id = wp_stylebible_categories.category_id 
 					AND match_list.sub_cat_id = wp_stylebible_sub_categories.sub_cat_id 
 					AND wp_stylebible_establelishments.is_deleted = 'n'
+					" . ( !empty($filters['hiddengem']) ? "AND wp_stylebible_establelishments.hidden_gem = 1" : "" ) . "
 				ORDER BY
-					establelishment_id
+					establelishment_name
 				LIMIT " . ( ($pagination['current'] - 1) * $pagination['limit'] ) . "," . $pagination['limit'];
 
 	$list = $wpdb->get_results( $query );
-
+	
 	$cnt_query	=	"SELECT
 						COUNT(*)
 					FROM
@@ -211,7 +213,8 @@ function the_list() {
 						AND match_list.city_id = wp_stylebible_cities.city_id 
 						AND match_list.cat_id = wp_stylebible_categories.category_id 
 						AND match_list.sub_cat_id = wp_stylebible_sub_categories.sub_cat_id 
-						AND wp_stylebible_establelishments.is_deleted = 'n'";
+						AND wp_stylebible_establelishments.is_deleted = 'n'
+						" . ( !empty($filters['hiddengem']) ? "AND wp_stylebible_establelishments.hidden_gem = 1" : "" );
 	
 	$total_cnt = $wpdb->get_var( $cnt_query );
 	if( $total_cnt > 0 ) {
@@ -238,12 +241,18 @@ function the_list() {
 					</h4>
 					<div class="address">
 						<a href="javascript:CityGuide.showMap('<?php echo $item->address; ?>');"><?php echo $item->address; ?></a>
+						<?php if( !empty($item->address) ) { ?><i aria-hidden="true" class="fa fa-map-marker-alt"></i><?php } ?>
 					</div>
 					<div class="detail">
 						<?php echo $item->why_we_love_it; ?>
 					</div>
 					<div class="site">
-						<a href="<?php echo $item->website_url; ?>" target="_blank"><?php echo retrieve_url($item->website_url); ?></a>
+						<div class="price">
+							<?php echo $item->price; ?>
+						</div>
+						<a href="<?php echo $item->website_url; ?>" target="_blank" title="<?php echo retrieve_url($item->website_url); ?>">
+							<?php echo $item->area; ?>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -389,5 +398,13 @@ function the_can_leave_review() {
 			and customer_email=\'' . $_SESSION['user_email'] . '\'');
 	
 	echo json_encode(['review_id' => $review_id]);
+	wp_die();
+}
+
+add_action( 'wp_ajax_display_google_map',			'display_google_map' );
+add_action( 'wp_ajax_nopriv_display_google_map',	'display_google_map' );
+function display_google_map() {
+	$address = $_POST['address'];
+	echo do_shortcode('[vsgmap address="' . $address . '" width="100%" zoom="17"]');
 	wp_die();
 }

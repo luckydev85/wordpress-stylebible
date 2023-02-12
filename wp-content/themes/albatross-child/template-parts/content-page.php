@@ -58,10 +58,8 @@
 
 		$page_title = get_the_title();
 
-		if( $page_title == 'City Guide' ) {
-			the_city_guide();
-		}
-
+		if( $page_title == 'City Guide' ) the_city_guide();
+		
 		if( $page_title != 'Say Hello' ) the_follow_us();
 
 		wp_link_pages(

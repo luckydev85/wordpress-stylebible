@@ -82,7 +82,7 @@
             </div>
 			
 			<div class="nav-social-link">
-				<button class="instagram-link"></button>
+				<a href="https://www.instagram.com/stylebibleofficial"><button class="instagram-link"></button></a>
 			</div>
             
         </div>

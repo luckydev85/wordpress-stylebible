@@ -360,6 +360,10 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 	color: red;
 }
 
+.guide .mobile-filter {
+	display: none;
+}
+
 #popmake-2963 label {
 	color: black;
 }
@@ -653,6 +657,44 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 
 	.site-footer .site-info {
 	    font-size: 15px;
+	}
+	
+	.guide .mobile-filter {
+		position: absolute;
+		padding: 0 15px;
+		border: 1px solid black;
+		color: black;
+		cursor: pointer;
+		right: 20px;
+		font-size: 15px;
+		top: 10px;
+		display: block;
+		z-index: 10;
+	}
+
+	.guide .left-sidebar {
+		position: absolute;
+		width: 180px;
+		z-index: 10;
+		background: white;
+		box-shadow: 0 0 3px 1px grey;
+		right: 20px;
+		top: 50px;
+		margin: 0;
+		display: none;
+	}
+	
+	.guide .mobile-filter:hover + .left-sidebar,
+	.guide .mobile-filter + .left-sidebar:hover {
+		display: block;
+	}
+	
+	.guide .left-sidebar h5.filter-header {
+		display: none;
+	}
+	
+	.guide .list {
+		width: 100%;
 	}
 
 }

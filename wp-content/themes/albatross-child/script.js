@@ -78,6 +78,9 @@ var CityGuide = function() {
             }
             jQuery('.filter.' + key + ' li').removeClass('active');
 			if( filters[key] === id ) {
+				if( key == 'city' ) {
+					jQuery("h4.city-name").text( 'All' );
+				}
 				filters[key] = 0;
 			} else {
             	jQuery('.filter.' + key + ' li.' + key + id).addClass('active');

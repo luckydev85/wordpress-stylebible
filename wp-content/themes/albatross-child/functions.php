@@ -14,7 +14,6 @@ function my_theme_enqueue_styles() {
 		$theme->get( 'Version' ) // This only works if you have Version defined in the style header.
 	);
 	wp_enqueue_script( 'jquery-blockUI', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js', array('jquery'), '2.7', true );
-// 	wp_enqueue_script( 'google-geocode-maps', 'https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyBcAy9PsVjqObo7NzyaJbLO8WuIjwfk15M');
 	wp_enqueue_script( 'child-style', get_stylesheet_directory_uri() . '/script.js?' . time(), array(), '', true );
 }
 
@@ -52,8 +51,8 @@ function change_city_guide_url($menu_item) {
 function the_city_guide() {
 	?>
 		<section class="guide elementor-section elementor-section-boxed">
-			
 			<div class="elementor-container elementor-column-gap-default">
+				<span class="mobile-filter">FILTER</span>
 				<div class="left-sidebar elementor-column elementor-col-20 elementor-inner-column elementor-element">
 					<div class="elementor-widget-wrap elementor-element-populated">
 						<?php the_filters(); ?>
@@ -128,7 +127,7 @@ function the_filters() {
 	];
 
 	?>
-		<h5>Filter</h5>
+		<h5 class="filter-header">Filter</h5>
 		<?php foreach( $filters as $key => $filter ) : ?>
 			<div class="filter <?php echo $key; ?>">
 				<h5><?php echo $key; ?></h5>
@@ -178,6 +177,26 @@ function the_list() {
 	if( !empty($filters['city']) ) $filter_conds[] = 'city_id = ' . $filters['city'];
 	if( !empty($filters['category']) ) $filter_conds[] = 'cat_id = ' . $filters['category'];
 	
+	$order_query = "ORDER BY ";
+	switch( (int)$filters['sort'] ) {
+		case 1:
+			$order_query .= "rating DESC";
+			break;
+		case 2:
+			$order_query .= "create_at";
+			break;
+		case 3:
+			$order_query .= "price";
+			break;
+		case 4:
+			$order_query .= "price DESC";
+			break;
+			
+		default:
+			$order_query .= "establelishment_name";
+			break;
+	}
+	
 	$query	=	"SELECT
 					wp_stylebible_establelishments.*,
 					wp_stylebible_sub_categories.sub_cat_name 
@@ -194,8 +213,7 @@ function the_list() {
 					AND match_list.sub_cat_id = wp_stylebible_sub_categories.sub_cat_id 
 					AND wp_stylebible_establelishments.is_deleted = 'n'
 					" . ( !empty($filters['hiddengem']) ? "AND wp_stylebible_establelishments.hidden_gem = 1" : "" ) . "
-				ORDER BY
-					establelishment_name
+				" . $order_query . "
 				LIMIT " . ( ($pagination['current'] - 1) * $pagination['limit'] ) . "," . $pagination['limit'];
 
 	$list = $wpdb->get_results( $query );

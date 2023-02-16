@@ -14,7 +14,7 @@ function my_theme_enqueue_styles() {
 		$theme->get( 'Version' ) // This only works if you have Version defined in the style header.
 	);
 	wp_enqueue_script( 'jquery-blockUI', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js', array('jquery'), '2.7', true );
-	wp_enqueue_script( 'child-style', get_stylesheet_directory_uri() . '/script.js?' . time(), array(), '', true );
+	wp_enqueue_script( 'child-js', get_stylesheet_directory_uri() . '/script.js?' . time(), array(), '', true );
 }
 
 add_action('init', 'start_session', 1);
@@ -60,7 +60,12 @@ function the_city_guide() {
 				</div>
 				<div class="list elementor-column elementor-col-80 elementor-inner-column elementor-element">
 					<div class="elementor-widget-wrap elementor-element-populated">
-						<h4 class="city-name">All</h4>
+						<div class="list-header">
+							<h4 class="city-name">All</h4>
+							<div class="hidden-gems">
+								<label for="hidden-gem-check"><h5>Hidden Gems</h5> <input type="checkbox" id="hidden-gem-check" ></label>
+							</div>
+						</div>
 						<div class="item-list">
 							<?php the_list(); ?>
 						</div>
@@ -103,6 +108,8 @@ function the_filters() {
 													city_id 
 												FROM
 													wp_stylebible_match_list 
+												WHERE
+													cat_id != 0 
 											GROUP BY
 												city_id)");
 	
@@ -111,7 +118,7 @@ function the_filters() {
 											FROM
 												wp_stylebible_categories 
 											WHERE
-												category_id IN ( SELECT cat_id FROM wp_stylebible_match_list GROUP BY cat_id ) 
+												category_id IN ( SELECT cat_id FROM wp_stylebible_match_list WHERE city_id != 0 GROUP BY cat_id ) 
 											ORDER BY
 												order_number");
 
@@ -144,9 +151,7 @@ function the_filters() {
 				</ul>
 			</div>
 		<?php endforeach; ?>
-		<div class="filter hidden-gems">
-			<label for="hidden-gem-check"><h5>Hidden Gems</h5> <input type="checkbox" id="hidden-gem-check" ></label>
-		</div>
+		
 	<?php
 }
 
@@ -193,26 +198,28 @@ function the_list() {
 			break;
 			
 		default:
-			$order_query .= "establelishment_name";
+			$order_query .= "establishment_name";
 			break;
 	}
 	
 	$query	=	"SELECT
-					wp_stylebible_establelishments.*,
+					wp_stylebible_establishments.*,
+					wp_stylebible_cities.city_name,
+					wp_stylebible_categories.category_name,
 					wp_stylebible_sub_categories.sub_cat_name 
 				FROM
-					( SELECT establelishment_id, city_id, cat_id, sub_cat_id FROM wp_stylebible_match_list" . (!empty($filter_conds) ? " WHERE " . implode(" AND ", $filter_conds) : "") . " GROUP BY establelishment_id ) match_list,
-					wp_stylebible_establelishments,
+					( SELECT establishment_id, city_id, cat_id, sub_cat_id FROM wp_stylebible_match_list" . (!empty($filter_conds) ? " WHERE " . implode(" AND ", $filter_conds) : "") . " GROUP BY establishment_id ) match_list,
+					wp_stylebible_establishments,
 					wp_stylebible_cities,
 					wp_stylebible_categories,
 					wp_stylebible_sub_categories 
 				WHERE
-					match_list.establelishment_id = wp_stylebible_establelishments.establelishment_id 
+					match_list.establishment_id = wp_stylebible_establishments.establishment_id 
 					AND match_list.city_id = wp_stylebible_cities.city_id 
 					AND match_list.cat_id = wp_stylebible_categories.category_id 
 					AND match_list.sub_cat_id = wp_stylebible_sub_categories.sub_cat_id 
-					AND wp_stylebible_establelishments.is_deleted = 'n'
-					" . ( !empty($filters['hiddengem']) ? "AND wp_stylebible_establelishments.hidden_gem = 1" : "" ) . "
+					AND wp_stylebible_establishments.is_deleted = 'n'
+					" . ( !empty($filters['hiddengem']) ? "AND wp_stylebible_establishments.hidden_gem = 1" : "" ) . "
 				" . $order_query . "
 				LIMIT " . ( ($pagination['current'] - 1) * $pagination['limit'] ) . "," . $pagination['limit'];
 
@@ -221,18 +228,18 @@ function the_list() {
 	$cnt_query	=	"SELECT
 						COUNT(*)
 					FROM
-						( SELECT establelishment_id, city_id, cat_id, sub_cat_id FROM wp_stylebible_match_list" . (!empty($filter_conds) ? " WHERE " . implode(" AND ", $filter_conds) : "") . " GROUP BY establelishment_id ) match_list,
-						wp_stylebible_establelishments,
+						( SELECT establishment_id, city_id, cat_id, sub_cat_id FROM wp_stylebible_match_list" . (!empty($filter_conds) ? " WHERE " . implode(" AND ", $filter_conds) : "") . " GROUP BY establishment_id ) match_list,
+						wp_stylebible_establishments,
 						wp_stylebible_cities,
 						wp_stylebible_categories,
 						wp_stylebible_sub_categories 
 					WHERE
-						match_list.establelishment_id = wp_stylebible_establelishments.establelishment_id 
+						match_list.establishment_id = wp_stylebible_establishments.establishment_id 
 						AND match_list.city_id = wp_stylebible_cities.city_id 
 						AND match_list.cat_id = wp_stylebible_categories.category_id 
 						AND match_list.sub_cat_id = wp_stylebible_sub_categories.sub_cat_id 
-						AND wp_stylebible_establelishments.is_deleted = 'n'
-						" . ( !empty($filters['hiddengem']) ? "AND wp_stylebible_establelishments.hidden_gem = 1" : "" );
+						AND wp_stylebible_establishments.is_deleted = 'n'
+						" . ( !empty($filters['hiddengem']) ? "AND wp_stylebible_establishments.hidden_gem = 1" : "" );
 	
 	$total_cnt = $wpdb->get_var( $cnt_query );
 	if( $total_cnt > 0 ) {
@@ -241,10 +248,14 @@ function the_list() {
 			<?php foreach( $list as $item ) : ?>
 			<div class="item">
 				<div class="img-wrapper">
-					<img src="<?php echo esc_url(home_url('/wp-content/uploads/2023/01/rest.jpg')) ?>" alt="">
+					<img
+						 src="<?php echo esc_url(home_url('/wp-content/uploads/' . $item->thumbnail . '.jpg' )); ?>"
+						 alt="<?php echo $item->establishment_name; ?>"
+						 onerror="this.onerror=null;this.src='<?php echo esc_url(home_url('/wp-content/uploads/default-image.jpg')); ?>';"
+					>
 					<span class="rating">
 						<?php echo $item->rating; ?>
-						<a href="javascript:CityGuide.vote(<?php echo $item->establelishment_id; ?>);">
+						<a href="javascript:CityGuide.vote(<?php echo $item->establishment_id; ?>);">
 							<i aria-hidden="true" class="far fa-heart"></i>
 						</a>
 					</span>
@@ -255,11 +266,11 @@ function the_list() {
 						<?php echo $item->sub_cat_name; ?>
 					</span>
 					<h4 class="name">
-						<?php echo $item->establelishment_name; ?>
+						<?php echo $item->establishment_name; ?>
 					</h4>
 					<div class="address">
-						<a href="javascript:CityGuide.showMap('<?php echo $item->address; ?>');"><?php echo $item->address; ?></a>
 						<?php if( !empty($item->address) ) { ?><i aria-hidden="true" class="fa fa-map-marker-alt"></i><?php } ?>
+						<a href="javascript:CityGuide.showMap('<?php echo $item->address; ?>');"><?php echo $item->address; ?></a>
 					</div>
 					<div class="detail">
 						<?php echo $item->why_we_love_it; ?>
@@ -283,7 +294,7 @@ function the_list() {
 	} else {
 	?>
 		<div class="no-result">
-			<h2>No Establelishment</h2>
+			<h2>No establishment</h2>
 		</div>
 	<?php
 	}
@@ -377,17 +388,17 @@ function store_email_to_session($email) {
 
 function store_review_to_db( $posted_data ) {
 	global $wpdb;
-	// update rating of establelishment.
+	// update rating of establishment.
 	$wpdb->query($wpdb->prepare("
 		UPDATE
-			wp_stylebible_establelishments
+			wp_stylebible_establishments
 		SET
 			rating=rating+1
 		WHERE
-			establelishment_id=" . $posted_data['establelishment_id']));
+			establishment_id=" . $posted_data['establishment_id']));
 	// insert review to db
 	$store_data = [
-		'establelishment_id'	=>	$posted_data['establelishment_id'],
+		'establishment_id'	=>	$posted_data['establishment_id'],
 		'review_content'		=>	$posted_data['review_content'],
 		'customer_email'		=>	$_SESSION['user_email']
 	];
@@ -412,7 +423,7 @@ function the_can_leave_review() {
 		FROM
 			wp_stylebible_reviews
 		WHERE
-			establelishment_id=' . $_POST['establelishmentId'] . '
+			establishment_id=' . $_POST['establishmentId'] . '
 			and customer_email=\'' . $_SESSION['user_email'] . '\'');
 	
 	echo json_encode(['review_id' => $review_id]);

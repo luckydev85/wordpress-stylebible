@@ -59,16 +59,17 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 }
 
 .site-header .header-dropdown-toggle.toggled-on {
-    background-image: url(images/menu_close1.svg);
+    background: url(images/menu_close1.svg) no-repeat center;
 	border: none;
 }
 
 .site-header .header-dropdown-toggle:not(.toggled-on) {
-	background-image: url(images/menu_open1.svg);
+	background: url(images/menu_open1.svg) no-repeat center;
 }
 
 .site-header .site-header-container {
 	max-width: none;
+	align-items: unset;
 }
 
 .site-header .header-dropdown-content-wrapper {
@@ -202,12 +203,23 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 	background-color: black;
 }
 
-.guide .left-sidebar .hidden-gems label,
-.guide .left-sidebar .hidden-gems label input[type="checkbox"] {
+.guide .list .list-header {
+	display: flex;
+	flex-wrap: nowrap;
+}
+
+.guide .list .hidden-gems {
+	display: flex;
+	flex: 1 0 auto;
+	justify-content: flex-end;
+}
+
+.guide .list .hidden-gems label,
+.guide .list .hidden-gems label input[type="checkbox"] {
 	cursor: pointer;
 }
 
-.guide .left-sidebar .hidden-gems h5 {
+.guide .list .hidden-gems h5 {
 	display: inline;
 	margin-right: 5px;
 }
@@ -226,7 +238,7 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 
 .guide .list .item {
 	width: calc(100% / 3);
-	padding: 5px 10px;
+	padding: 5px;
 }
 
 .guide .list .item .img-wrapper {
@@ -289,6 +301,10 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 	min-height: 20px;
 }
 
+.guide .list .item .address i {
+	margin-right: 2px;
+}
+
 .guide .list .item .address a {
 	color: black;
 }
@@ -340,8 +356,8 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 	color: black;
 }
 
-.guide .pagination li.prev-nav:after,
-.guide .pagination li.next-nav:after {
+.guide .pagination li.prev-nav:before,
+.guide .pagination li.next-nav:before {
 	position: absolute;
 	content: '';
 	height: 40px;
@@ -350,6 +366,13 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 	border: 1px solid black;
 	left: calc( 100% / 2 - 20px );
 	top: -1px;
+	z-index: 0;
+}
+
+.guide .pagination li.prev-nav a,
+.guide .pagination li.next-nav a {
+	position: relative;
+	z-index: 1;
 }
 
 .guide .pagination li.disabled a {
@@ -592,6 +615,12 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 
 /*--- City Guide ---*/
 
+.wpcf7 form .wpcf7-response-output {
+	margin: 2em 0em 1em !important;
+	padding: 0.2em 1em;
+	border: 2px solid #00a0d2; /* Blue */
+}
+
 .guide .left-sidebar .filter h5 {
     margin-bottom: 10px;
     white-space: nowrap;
@@ -624,6 +653,11 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 
 @media (max-width: 991px) {
 
+	.site-header .header-dropdown .header-dropdown-content .signup-form .signup-email-form {
+		margin: 20px 0px !important;
+		text-align: center;
+	}
+	
 	body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 		padding: 0 20%;
 	}
@@ -696,11 +730,33 @@ body.page-has-thumbnail .page-header-wrapper.city-guide p.entry-desc {
 	.guide .list {
 		width: 100%;
 	}
+	
+	.guide .list-header .hidden-gems {
+		margin-right: 100px;
+    	margin-top: 5px;
+	}
 
 }
 
 @media (max-width: 575px) {
 
+	.site-header .header-dropdown .header-dropdown-content .signup-form .signup-email-form h4 {
+		font-size: 20px;
+		line-height: 25px;
+	}
+
+	.site-header .header-dropdown .header-dropdown-content .signup-form input[type="email"] {
+		font-size: 11px;
+	}
+	
+	.wpcf7 form .wpcf7-response-output {
+		line-height: 25px;
+	}
+	
+	.site-header .header-dropdown .header-dropdown-content .signup-form .policy {
+		font-size: 13px;
+	}
+	
 	body.page-has-thumbnail .page-header-wrapper.city-guide h1.entry-title {
     	font-size: 30px;
     	line-height: 40px;

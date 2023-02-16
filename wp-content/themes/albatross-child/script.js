@@ -100,13 +100,13 @@ var CityGuide = function() {
             jQuery(".site-header .primary-menu-container").addClass("display-none");
             jQuery(".site-header .signup-form").removeClass("display-none");
         },
-		vote: function(establelishmentId) {
+		vote: function(establishmentId) {
 			jQuery.ajax({
 				method: 'POST',
 				url: ajaxUrl,
 				data: {
 					action:     'the_can_leave_review',
-					establelishmentId
+					establishmentId
 				},
 				dataType: "json",
 				success: function(res) {
@@ -114,7 +114,7 @@ var CityGuide = function() {
 						jQuery("#popmake-2963 .popmake-content form").removeClass("display-none");
 						jQuery("#popmake-2963 .popmake-content .already-exist-review").addClass("display-none");
 						
-						jQuery('#popmake-2963 input[name="establelishment_id"]').val( establelishmentId );
+						jQuery('#popmake-2963 input[name="establelishment_id"]').val( establishmentId );
 						/** form init */
 						jQuery('#popmake-2963 form').removeClass('sent').removeClass('invalid').addClass('init');
 						jQuery('#popmake-2963 form').attr('data-status', 'init');
@@ -137,7 +137,7 @@ var CityGuide = function() {
 				method: 'POST',
 				url: ajaxUrl,
 				data: {
-					action:     'display_google_map',
+					action: 'display_google_map',
 					address
 				},
 				success: function(res) {
